@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+    dependencies {
+        classpath 'com.trello:victor:+'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.trello.victor'
 
 android {
     compileSdkVersion 21
