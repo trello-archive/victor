@@ -29,6 +29,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Define the 'svg' source set for any flavors/build types and/or 'main' for all of them
+    sourceSets {
+        main {
+            svg.srcDir 'src/main/svg'
+        }
+    }
+}
+
+victor {
+    // Any assets defined in relative terms needs a base DPI specified
+    svgDpi = 72
+
+    // Do not generate these densities for SVG assets
+    excludeDensities = [ 'ldpi', 'xxxhdpi' ]
 }
 
 dependencies {
