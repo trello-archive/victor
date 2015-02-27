@@ -1,6 +1,7 @@
 package com.trello.victor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.internal.file.DefaultSourceDirectorySet
 import org.gradle.api.tasks.JavaExec
 
@@ -69,17 +70,16 @@ class VictorPlugin implements Plugin<Project> {
                 }
 
                 // Overall task that we'll hook into
-                String rasterizationTaskName = "rasterizeSvgsFor${variant.name.capitalize()}"
-                project.task(rasterizationTaskName) {
+                Task rasterizatonTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}") {
                     ext.outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
                 }
 
                 // TODO: Create our own convert class instead of using Batik's tool, which kicks off JAR executable
                 densities.keySet().each { density ->
                     // TODO: If rasterize needs to run again, clear out build directory first
-                    File svgBuildDir = new File(project.tasks[rasterizationTaskName].ext.outputDir, "drawable-$density")
-                    String rasterizeTaskName = "rasterizeSvgsFor${variant.name.capitalize()}${density.capitalize()}"
-                    project.task(rasterizeTaskName, type: JavaExec) {
+                    File svgBuildDir = new File(rasterizatonTask.ext.outputDir, "drawable-$density")
+                    Task rasterizeForDensity = project.task(
+                            "rasterizeSvgsFor${variant.name.capitalize()}${density.capitalize()}", type: JavaExec) {
                         inputs.files svgFiles
                         outputs.dir svgBuildDir
 
@@ -91,12 +91,11 @@ class VictorPlugin implements Plugin<Project> {
                         args svgFiles
                     }
 
-                    project.tasks[rasterizationTaskName].dependsOn rasterizeTaskName
+                    rasterizatonTask.dependsOn rasterizeForDensity
                 }
 
                 // Makes the magic happen (inserts resources so devs can use it)
-                variant.registerResGeneratingTask(project.tasks[rasterizationTaskName],
-                        project.tasks[rasterizationTaskName].ext.outputDir)
+                variant.registerResGeneratingTask(rasterizatonTask, rasterizatonTask.ext.outputDir)
             }
         }
     }
