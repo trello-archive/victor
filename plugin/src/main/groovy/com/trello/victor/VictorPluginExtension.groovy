@@ -1,6 +1,6 @@
-package com.trello.svgresources
+package com.trello.victor
 
-class SvgResourcesPluginExtension {
+class VictorPluginExtension {
     /** Base DPI of SVG assets */
     int svgDpi = 72
 

@@ -1,12 +1,12 @@
-package com.trello.svgresources
+package com.trello.victor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.file.DefaultSourceDirectorySet
 import org.gradle.api.tasks.JavaExec
 
-class SvgResourcesPlugin implements Plugin<Project> {
+class VictorPlugin implements Plugin<Project> {
     void apply(Project project) {
-        project.extensions.create('svg', SvgResourcesPluginExtension)
+        project.extensions.create('victor', VictorPluginExtension)
 
         project.configurations.create('batik')
 
@@ -22,15 +22,15 @@ class SvgResourcesPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             Map densities = [
-                    ldpi   : Math.round(project.svg.svgDpi * 0.5f),
-                    mdpi   : project.svg.svgDpi,
-                    hdpi   : Math.round(project.svg.svgDpi * 1.5f),
-                    xhdpi  : project.svg.svgDpi * 2,
-                    xxhdpi : project.svg.svgDpi * 3,
-                    xxxhdpi: project.svg.svgDpi * 4
+                    ldpi   : Math.round(project.victor.svgDpi * 0.5f),
+                    mdpi   : project.victor.svgDpi,
+                    hdpi   : Math.round(project.victor.svgDpi * 1.5f),
+                    xhdpi  : project.victor.svgDpi * 2,
+                    xxhdpi : project.victor.svgDpi * 3,
+                    xxxhdpi: project.victor.svgDpi * 4
             ]
 
-            project.svg.excludeDensities.each { density ->
+            project.victor.excludeDensities.each { density ->
                 densities.remove(density)
             }
 
