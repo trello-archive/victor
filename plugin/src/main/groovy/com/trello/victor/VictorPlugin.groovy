@@ -2,6 +2,7 @@ package com.trello.victor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.file.DefaultSourceDirectorySet
 import org.gradle.api.tasks.JavaExec
 
@@ -37,33 +38,15 @@ class VictorPlugin implements Plugin<Project> {
 
             // Register our task with the variant's resources
             project.android.applicationVariants.all { variant ->
-                Set<File> srcDirs = new HashSet<>()
+                // TODO: Use lazier evaluation for files by sticking this in a prep task?
+                Collection<File> svgFiles = new HashSet<>()
                 variant.sourceSets.each { sourceSet ->
-                    srcDirs.addAll(sourceSet.svg.srcDirs)
+                    // TODO: Only accept SVG files that are named properly; reject (with warning) invalid resource names
+                    FileCollection filteredCollection = sourceSet.svg.filter { File file ->
+                        file.name.endsWith '.svg'
+                    }
+                    svgFiles.addAll(filteredCollection.getFiles())
                 }
-
-                if (srcDirs.size() == 0) {
-                    return
-                }
-
-                // Gather all available files
-                // TODO: Use lazy evaluation?
-                // TODO: Only accept SVG files that are named properly; reject (with warning) invalid resource names
-                List<File> svgFiles = srcDirs.collect { srcDir ->
-                    srcDir.listFiles(new FilenameFilter() {
-                        @Override
-                        boolean accept(File dir, String name) {
-                            name.endsWith('.svg')
-                        }
-                    })
-                }
-
-                // If there are no files in a directory, it returns null
-                svgFiles.removeAll {
-                    it == null
-                }
-
-                svgFiles = svgFiles.flatten()
 
                 if (svgFiles.size() == 0) {
                     return
