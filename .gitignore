@@ -24,3 +24,6 @@ proguard/
 
 # Log Files
 *.log
+
+# Ignored repo build directory
+repo/

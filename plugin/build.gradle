@@ -4,3 +4,22 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
 }
+
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+}
+
+group = 'com.trello'
+version = '0.1.0-SNAPSHOT'
+
+// Publish to a local repository for use with the sample app
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+            pom.artifactId = 'victor'
+        }
+    }
+}
