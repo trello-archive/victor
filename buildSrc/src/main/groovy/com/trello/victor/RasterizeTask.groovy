@@ -44,9 +44,7 @@ class RasterizeTask extends DefaultTask {
     // TODO: Make this an incremental build
     @TaskAction
     def rasterize() {
-        // TODO: Figure out why closures hate me in this task. They blow up with NoClassDefFoundError.
-        // In the meantime, I'm using normal iterators, but closures would make more sense.
-        for (Density density : includeDensities) {
+        includeDensities.each { Density density ->
             File resDir = new File(outputDir, "/drawable-${density.name().toLowerCase()}")
             resDir.mkdirs()
 
@@ -55,7 +53,7 @@ class RasterizeTask extends DefaultTask {
             transcoder.addTranscodingHint(ImageTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER,
                     new Float(pixelUnitToMillimeter));
 
-            for (File svgFile : sources.files) {
+            sources.files.each { File svgFile ->
                 String svgURI = svgFile.toURI().toString();
                 TranscoderInput input = new TranscoderInput(svgURI);
 
