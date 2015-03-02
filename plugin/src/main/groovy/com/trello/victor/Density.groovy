@@ -14,36 +14,24 @@
  * limitations under the License.
  */
 
-apply plugin: 'groovy'
+package com.trello.victor
 
-dependencies {
-    compile gradleApi()
-    compile localGroovy()
-}
+enum Density  {
 
-apply plugin: 'maven'
+    LDPI(0.5f),
+    MDPI(1),
+    HDPI(1.5f),
+    XHDPI(2),
+    XXHDPI(3),
+    XXXHDPI(4);
 
-repositories {
-    mavenCentral()
-}
+    float multiplier;
 
-// Batik dependencies
+    Density(float multiplier) {
+        this.multiplier = multiplier
+    }
 
-dependencies {
-    compile 'org.apache.xmlgraphics:batik-codec:1.7'
-}
-
-// Plugin publishing
-
-group = 'com.trello'
-version = '0.1.0-SNAPSHOT'
-
-// Publish to a local repository for use with the sample app
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-            pom.artifactId = 'victor'
-        }
+    float getMultiplier() {
+        return multiplier
     }
 }

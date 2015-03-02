@@ -41,6 +41,15 @@ victor {
 }
 ```
 
+OSX Issues
+----------
+
+When using Android Studio on OSX, you might see this error:
+
+`Toolkit not found: apple.awt.CToolkit`
+
+If this happens you should install and use [JDK 1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) for your instance of Android Studio. For instructions how, consult the "Mac OS X" section of [this article](https://intellij-support.jetbrains.com/entries/23455956-Selecting-the-JDK-version-the-IDE-will-run-under).
+
 Known Issues
 ------------
 
