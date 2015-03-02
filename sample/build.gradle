@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        maven {
-            url uri('../repo')
-        }
-    }
-    dependencies {
-        classpath 'com.trello:victor:+'
-    }
-}
-
 apply plugin: 'com.android.application'
+
+// TODO: Until this is published, the plugin comes from buildSrc
 apply plugin: 'com.trello.victor'
 
 android {
