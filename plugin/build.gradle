@@ -27,6 +27,14 @@ repositories {
     mavenCentral()
 }
 
+// Batik dependencies
+
+dependencies {
+    compile 'org.apache.xmlgraphics:batik-codec:1.7'
+}
+
+// Plugin publishing
+
 group = 'com.trello'
 version = '0.1.0-SNAPSHOT'
 
