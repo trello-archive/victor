@@ -26,6 +26,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.incremental.IncrementalTaskInputs
+import org.gradle.api.tasks.incremental.InputFileDetails
 
 class RasterizeTask extends DefaultTask {
 
@@ -43,9 +45,21 @@ class RasterizeTask extends DefaultTask {
 
     // TODO: Make this an incremental build
     @TaskAction
-    def rasterize() {
+    def rasterize(IncrementalTaskInputs inputs) {
+        // If the whole thing isn't incremental, delete the build folder (if it exists)
+        if (!inputs.isIncremental() && outputDir.exists()) {
+            logger.debug("SVG rasterization is not incremental; deleting build folder and starting fresh!")
+            outputDir.delete()
+        }
+
+        List<File> svgFiles = []
+        inputs.outOfDate { InputFileDetails change ->
+            logger.debug("$change.file.name out of date; converting")
+            svgFiles.add change.file
+        }
+
         includeDensities.each { Density density ->
-            File resDir = new File(outputDir, "/drawable-${density.name().toLowerCase()}")
+            File resDir = getResourceDir(density)
             resDir.mkdirs()
 
             Transcoder transcoder = new PNGTranscoder();
@@ -53,7 +67,7 @@ class RasterizeTask extends DefaultTask {
             transcoder.addTranscodingHint(ImageTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER,
                     new Float(pixelUnitToMillimeter));
 
-            sources.files.each { File svgFile ->
+            svgFiles.each { File svgFile ->
                 String svgURI = svgFile.toURI().toString();
                 TranscoderInput input = new TranscoderInput(svgURI);
 
@@ -69,6 +83,20 @@ class RasterizeTask extends DefaultTask {
                 logger.info("Converted $svgFile to $destination")
             }
         }
+
+        inputs.removed { change ->
+            logger.debug("$change.file.name was removed; removing it from generated folder")
+
+            includeDensities.each { Density density ->
+                File resDir = getResourceDir(density)
+                File file = new File(resDir, getDestinationFile(change.file.name))
+                file.delete()
+            }
+        }
+    }
+
+    File getResourceDir(Density density) {
+        return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
     }
 
     String getDestinationFile(String name) {
