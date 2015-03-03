@@ -30,14 +30,15 @@ import org.apache.batik.transcoder.image.PNGTranscoder
  */
 class Converter  {
 
-    private Transcoder transcoder = new PNGTranscoder();
+    private Transcoder transcoder = new PNGTranscoder()
 
-    void transcode(File svgFile, Density density, int baseDpi, File destination) {
-        float pixelUnitToMillimeter = (2.54f / (baseDpi * density.multiplier)) * 10
-        transcoder.addTranscodingHint(ImageTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER,
-                new Float(pixelUnitToMillimeter));
+    void transcode(SVGResource svgResource, Density density, File destination) {
+        int outWidth = Math.round(svgResource.width * density.multiplier)
+        int outHeight = Math.round(svgResource.height * density.multiplier)
+        transcoder.addTranscodingHint(ImageTranscoder.KEY_WIDTH, new Float(outWidth))
+        transcoder.addTranscodingHint(ImageTranscoder.KEY_HEIGHT, new Float(outHeight))
 
-        String svgURI = svgFile.toURI().toString();
+        String svgURI = svgResource.file.toURI().toString();
         TranscoderInput input = new TranscoderInput(svgURI);
 
         OutputStream outStream = new FileOutputStream(destination)

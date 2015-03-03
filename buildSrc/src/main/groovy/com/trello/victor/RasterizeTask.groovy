@@ -53,15 +53,19 @@ class RasterizeTask extends DefaultTask {
             svgFiles.add change.file
         }
 
-        Converter converter = new Converter()
-
+        // Make sure all output directories exist
         includeDensities.each { Density density ->
             File resDir = getResourceDir(density)
             resDir.mkdirs()
+        }
 
-            svgFiles.each { File svgFile ->
-                File destination = new File(resDir, getDestinationFile(svgFile.name))
-                converter.transcode(svgFile, density, baseDpi, destination)
+        Converter converter = new Converter()
+        svgFiles.each { File svgFile ->
+            SVGResource svgResource = new SVGResource(svgFile, baseDpi)
+
+            includeDensities.each { Density density ->
+                File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
+                converter.transcode(svgResource, density, destination)
                 logger.info("Converted $svgFile to $destination")
             }
         }
