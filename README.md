@@ -10,7 +10,23 @@ With this plugin, you can define source folders for SVGs and they will automatic
 Installation
 ------------
 
-The plugin is pre-alpha and thus is not published. If you absolutely must have it now, you can create a `$projectDir/buildSrc/` directory in your project then place the contents of `/plugin/` inside of it.
+Add the following to your `build.gradle`:
+
+```gradle
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.trello:victor:0.1.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+// Make sure to apply this plugin *after* the Android plugin
+apply plugin: 'com.trello.victor'
+```
 
 Usage
 -----
