@@ -82,4 +82,37 @@ class ConverterTests {
         assertTrue FileUtils.contentEquals(destinationXhdpi, expectedXhdpi)
     }
 
+    @Test
+    void canResizePngWithPixelSize() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'pixel.svg')
+
+        File destinationLdpi = new File(OUT_PATH, 'pixel-ldpi.png')
+        converter.transcode(svgFile, Density.LDPI, 72, destinationLdpi)
+
+        File destinationMdpi = new File(OUT_PATH, 'pixel-mdpi.png')
+        converter.transcode(svgFile, Density.MDPI, 72, destinationMdpi)
+
+        File destinationHdpi = new File(OUT_PATH, 'pixel-hdpi.png')
+        converter.transcode(svgFile, Density.HDPI, 72, destinationHdpi)
+
+        File destinationXhdpi = new File(OUT_PATH, 'pixel-xhdpi.png')
+        converter.transcode(svgFile, Density.XHDPI, 72, destinationXhdpi)
+
+        assertTrue destinationLdpi.exists()
+        assertTrue destinationMdpi.exists()
+        assertTrue destinationHdpi.exists()
+        assertTrue destinationXhdpi.exists()
+
+        File expectedLdpi = new File(RESOURCE_PATH, 'pixel-ldpi-expected.png')
+        File expectedMdpi = new File(RESOURCE_PATH, 'pixel-mdpi-expected.png')
+        File expectedHdpi = new File(RESOURCE_PATH, 'pixel-hdpi-expected.png')
+        File expectedXhdpi = new File(RESOURCE_PATH, 'pixel-xhdpi-expected.png')
+
+        assertTrue FileUtils.contentEquals(destinationLdpi, expectedLdpi)
+        assertTrue FileUtils.contentEquals(destinationMdpi, expectedMdpi)
+        assertTrue FileUtils.contentEquals(destinationHdpi, expectedHdpi)
+        assertTrue FileUtils.contentEquals(destinationXhdpi, expectedXhdpi)
+    }
 }
