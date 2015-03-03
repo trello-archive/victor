@@ -1,1 +1,1 @@
-include ':sample', ':plugin'
+include ':sample', ':victor'
