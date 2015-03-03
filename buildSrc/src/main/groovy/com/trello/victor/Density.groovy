@@ -18,7 +18,7 @@ package com.trello.victor
 
 enum Density  {
 
-    LDPI(0.5f),
+    LDPI(0.75f),
     MDPI(1),
     HDPI(1.5f),
     XHDPI(2),
