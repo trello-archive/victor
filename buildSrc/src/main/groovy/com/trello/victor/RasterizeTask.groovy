@@ -15,11 +15,7 @@
  */
 
 package com.trello.victor
-import org.apache.batik.transcoder.Transcoder
-import org.apache.batik.transcoder.TranscoderInput
-import org.apache.batik.transcoder.TranscoderOutput
-import org.apache.batik.transcoder.image.ImageTranscoder
-import org.apache.batik.transcoder.image.PNGTranscoder
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
@@ -43,7 +39,6 @@ class RasterizeTask extends DefaultTask {
     @Input
     int baseDpi
 
-    // TODO: Make this an incremental build
     @TaskAction
     def rasterize(IncrementalTaskInputs inputs) {
         // If the whole thing isn't incremental, delete the build folder (if it exists)
@@ -58,28 +53,15 @@ class RasterizeTask extends DefaultTask {
             svgFiles.add change.file
         }
 
+        Converter converter = new Converter()
+
         includeDensities.each { Density density ->
             File resDir = getResourceDir(density)
             resDir.mkdirs()
 
-            Transcoder transcoder = new PNGTranscoder();
-            float pixelUnitToMillimeter = (2.54f / (baseDpi * density.multiplier)) * 10
-            transcoder.addTranscodingHint(ImageTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER,
-                    new Float(pixelUnitToMillimeter));
-
             svgFiles.each { File svgFile ->
-                String svgURI = svgFile.toURI().toString();
-                TranscoderInput input = new TranscoderInput(svgURI);
-
                 File destination = new File(resDir, getDestinationFile(svgFile.name))
-                OutputStream outStream = new FileOutputStream(destination)
-                TranscoderOutput output = new TranscoderOutput(outStream);
-
-                transcoder.transcode(input, output);
-
-                outStream.flush();
-                outStream.close();
-
+                converter.transcode(svgFile, density, baseDpi, destination)
                 logger.info("Converted $svgFile to $destination")
             }
         }
