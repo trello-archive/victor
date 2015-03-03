@@ -53,7 +53,7 @@ If this happens you should install and use [JDK 1.7](http://www.oracle.com/techn
 Known Issues
 ------------
 
-- Android Studio doesn't automatically rebuild if the SVG folder is modified; if you change your SVGs you should make sure to rebuild.
+- Android Studio doesn't automatically rebuild if the SVG folder is modified; if you change your SVGs you should make sure to rebuild in order to pull in the new assets.
 - Android Studio doesn't recognize SVG resources in XML (so no autocomplete + warnings). The Android plugin will support it someday.
 
 Planned Features
@@ -62,4 +62,3 @@ Planned Features
 - 9-patch support
 - Better handling of invalid filenames for SVGs
 - Better handling for invalid SVGs (that don't rasterize)
-- Faster build time (currently rasterizes all SVGs per variant, could be more efficient)
