@@ -55,7 +55,6 @@ Known Issues
 
 - Android Studio doesn't automatically rebuild if the SVG folder is modified; if you change your SVGs you should make sure to rebuild.
 - Android Studio doesn't recognize SVG resources in XML (so no autocomplete + warnings). The Android plugin will support it someday.
-- Currently, Victor only resizes SVGs whose size is defined in relative terms (e.g. `pt` or `in`). In the future it will properly resize any SVG.
 
 Planned Features
 ----------------
