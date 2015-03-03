@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id 'nu.studer.plugindev' version '1.0.3'
+}
+
 apply plugin: 'groovy'
 
 dependencies {
@@ -39,12 +43,32 @@ dependencies {
 group = 'com.trello'
 version = '0.1.0-SNAPSHOT'
 
-// Publish to a local repository for use with the sample app
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-            pom.artifactId = 'victor'
+plugindev {
+    pluginId 'com.trello.victor'
+    pluginName 'victor'
+    pluginImplementationClass 'com.trello.victor.VictorPlugin'
+    pluginDescription 'Gradle plugin that lets an Android project use SVGs as resources.'
+    pluginLicenses 'Apache-2.0'
+    pluginTags 'gradle', 'plugin', 'android'
+    authorId 'danlew42'
+    authorName 'Dan Lew'
+    authorEmail 'danlew42@gmail.com'
+    projectUrl 'https://github.com/trello/victor'
+    projectInceptionYear '2015'
+    done() // do not omit this
+}
+
+// If you want to upload this, make sure to set BINTRAY_USER and BINTRAY_API_KEY in gradle.properties
+if (project.hasProperty('BINTRAY_USER') && project.hasProperty('BINTRAY_API_KEY')) {
+    bintray {
+        dryRun = true // Turn off when actually deploying
+        publish = false // Maybe someday turn this on for auto-publishing
+
+        user = "$BINTRAY_USER"
+        key = "$BINTRAY_API_KEY"
+        pkg {
+            repo = 'gradle-plugins'
+            userOrg = 'trello'
         }
     }
 }
