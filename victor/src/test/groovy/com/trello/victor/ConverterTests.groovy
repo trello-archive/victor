@@ -131,4 +131,17 @@ class ConverterTests {
         // Assert that we *didn't* create a file for this!
         assertFalse destination.exists()
     }
+
+    @Test
+    void ignoreSomewhatInvalidSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'invalid2.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'invalid2.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        // Assert that we *didn't* create a file for this!
+        assertFalse destination.exists()
+    }
 }
