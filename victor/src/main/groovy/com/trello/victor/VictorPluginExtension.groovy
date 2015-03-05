@@ -16,10 +16,30 @@
 
 package com.trello.victor
 
+/**
+ * Configuration values for the victor {} script block.
+ */
 class VictorPluginExtension {
-    /** Base DPI of SVG assets */
+
+    /**
+     * The DPI to use for SVG assets whose size is defined in relative terms.
+     *
+     * For example, if the size is 1in x 1in, you would need to define how many
+     * pixels are in an inch.
+     *
+     * This value is ignored for SVGs whose size are defined in absolute terms.
+     *
+     * The default value is 72 DPI.
+     */
     int svgDpi = 72
 
-    /** Densities to exclude when generating SVG assets (ldpi, mdpi, hdpi, xhdpi, xxhdpi, or xxxhpdi) */
+    /**
+     * Densities to exclude when generating SVG assets.
+     *
+     * If not set, all densities are generated.
+     *
+     * Possible values: ldpi, mdpi, hdpi, xhdpi, xxhdpi, xxxhpdi
+     */
     List<String> excludeDensities = []
+
 }

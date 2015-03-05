@@ -16,6 +16,9 @@
 
 package com.trello.victor
 
+/**
+ * Represents the different densities we can scale assets for.
+ */
 enum Density  {
 
     LDPI(0.75f),

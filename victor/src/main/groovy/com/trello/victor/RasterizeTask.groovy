@@ -25,17 +25,32 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 import org.gradle.api.tasks.incremental.InputFileDetails
 
+/**
+ * Task that rasterizes SVGs into PNGs.
+ */
 class RasterizeTask extends DefaultTask {
 
+    /**
+     * The input SVGs.
+     */
     @InputFiles
     FileCollection sources
 
+    /**
+     * The output directory.
+     */
     @OutputDirectory
     File outputDir
 
+    /**
+     * The densities to scale assets for.
+     */
     @Input
     List<Density> includeDensities
 
+    /**
+     * The DPI to use for relative-sized SVGs.
+     */
     @Input
     int baseDpi
 
@@ -81,11 +96,11 @@ class RasterizeTask extends DefaultTask {
         }
     }
 
-    File getResourceDir(Density density) {
+    private File getResourceDir(Density density) {
         return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
     }
 
-    String getDestinationFile(String name) {
+    private String getDestinationFile(String name) {
         int suffixStart = name.lastIndexOf '.'
         return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.png"
     }

@@ -32,6 +32,13 @@ class Converter  {
 
     private Transcoder transcoder = new PNGTranscoder()
 
+    /**
+     * Transcodes an SVGResource into a PNG.
+     *
+     * @param svgResource the input SVG
+     * @param density the density to output the PNG; determines scaling
+     * @param destination the output destination
+     */
     void transcode(SVGResource svgResource, Density density, File destination) {
         int outWidth = Math.round(svgResource.width * density.multiplier)
         int outHeight = Math.round(svgResource.height * density.multiplier)
