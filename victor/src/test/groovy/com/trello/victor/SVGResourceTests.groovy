@@ -45,4 +45,12 @@ class SVGResourceTests {
         File svgFile = new File('does-not-exist.svg')
         new SVGResource(svgFile, 72)
     }
+
+    @Test
+    void invalidSvg() {
+        File svgFile = new File(RESOURCE_PATH, 'invalid.svg')
+
+        // This is simply testing that it doesn't blow up if you pass it an invalid file
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+    }
 }
