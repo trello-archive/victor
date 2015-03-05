@@ -45,15 +45,15 @@ class Converter  {
         transcoder.addTranscodingHint(ImageTranscoder.KEY_WIDTH, new Float(outWidth))
         transcoder.addTranscodingHint(ImageTranscoder.KEY_HEIGHT, new Float(outHeight))
 
-        String svgURI = svgResource.file.toURI().toString();
-        TranscoderInput input = new TranscoderInput(svgURI);
+        String svgURI = svgResource.file.toURI().toString()
+        TranscoderInput input = new TranscoderInput(svgURI)
 
         OutputStream outStream = new FileOutputStream(destination)
-        TranscoderOutput output = new TranscoderOutput(outStream);
+        TranscoderOutput output = new TranscoderOutput(outStream)
 
-        transcoder.transcode(input, output);
+        transcoder.transcode(input, output)
 
-        outStream.flush();
-        outStream.close();
+        outStream.flush()
+        outStream.close()
     }
 }
