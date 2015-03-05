@@ -17,10 +17,12 @@
 package com.trello.victor
 
 import org.apache.batik.transcoder.Transcoder
+import org.apache.batik.transcoder.TranscoderException
 import org.apache.batik.transcoder.TranscoderInput
 import org.apache.batik.transcoder.TranscoderOutput
 import org.apache.batik.transcoder.image.ImageTranscoder
 import org.apache.batik.transcoder.image.PNGTranscoder
+import org.gradle.api.logging.Logging
 
 /**
  * Converts SVGs to PNGs.
@@ -28,7 +30,7 @@ import org.apache.batik.transcoder.image.PNGTranscoder
  * This is split out into its own class to make it easier to test (since it doesn't require
  * any of the Task architecture).
  */
-class Converter  {
+class Converter {
 
     private Transcoder transcoder = new PNGTranscoder()
 
@@ -40,6 +42,12 @@ class Converter  {
      * @param destination the output destination
      */
     void transcode(SVGResource svgResource, Density density, File destination) {
+        if (!svgResource.canBeRead) {
+            Logging.getLogger(this.class)
+                    .warn("Cannot convert SVGResource $svgResource.file.name; file cannot be parsed")
+            return
+        }
+
         int outWidth = Math.round(svgResource.width * density.multiplier)
         int outHeight = Math.round(svgResource.height * density.multiplier)
         transcoder.addTranscodingHint(ImageTranscoder.KEY_WIDTH, new Float(outWidth))
@@ -51,7 +59,14 @@ class Converter  {
         OutputStream outStream = new FileOutputStream(destination)
         TranscoderOutput output = new TranscoderOutput(outStream)
 
-        transcoder.transcode(input, output)
+        try {
+            transcoder.transcode(input, output)
+        }
+        catch (TranscoderException e) {
+            Logging.getLogger(this.class).error('Could not transcode $svgResource.file.name', e)
+            destination.delete()
+            return
+        }
 
         outStream.flush()
         outStream.close()

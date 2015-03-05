@@ -15,12 +15,14 @@
  */
 
 package com.trello.victor
+
 import org.apache.batik.bridge.BridgeContext
 import org.apache.batik.bridge.UnitProcessor
 import org.apache.batik.bridge.UserAgent
 import org.apache.batik.bridge.UserAgentAdapter
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory
 import org.apache.batik.util.XMLResourceDescriptor
+import org.gradle.api.logging.Logging
 import org.w3c.dom.svg.SVGDocument
 import org.w3c.dom.svg.SVGSVGElement
 
@@ -29,11 +31,14 @@ import org.w3c.dom.svg.SVGSVGElement
  */
 class SVGResource {
 
-    File file
+    private File file
+
+    // Basic way to tell if we could read the file or not
+    private boolean canBeRead = false
 
     // Data read from the file, if it exists
-    int width
-    int height
+    private int width
+    private int height
 
     SVGResource(File file, int dpi) {
         this.file = file
@@ -48,7 +53,15 @@ class SVGResource {
 
         String parser = XMLResourceDescriptor.getXMLParserClassName()
         SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(parser)
-        SVGDocument document = (SVGDocument) factory.createDocument(file.toURI().toString())
+        SVGDocument document
+        try {
+            document = (SVGDocument) factory.createDocument(file.toURI().toString())
+        }
+        catch (IOException e) {
+            Logging.getLogger(this.class).error("Could not read SVG resource $file.name", e)
+            return
+        }
+
         SVGSVGElement svgElement = document.getRootElement()
 
         UserAgent userAgent = new DensityUserAgent(dpi)
@@ -57,6 +70,8 @@ class SVGResource {
 
         width = UnitProcessor.svgHorizontalLengthToUserSpace(svgElement.width.baseVal.valueAsString, '', context)
         height = UnitProcessor.svgVerticalLengthToUserSpace(svgElement.height.baseVal.valueAsString, '', context)
+
+        canBeRead = true
     }
 
     private static final class DensityUserAgent extends UserAgentAdapter {

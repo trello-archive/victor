@@ -118,4 +118,43 @@ class ConverterTests {
         assertTrue FileUtils.contentEquals(destinationHdpi, expectedHdpi)
         assertTrue FileUtils.contentEquals(destinationXhdpi, expectedXhdpi)
     }
+
+    @Test
+    void ignoresNonexistantFiles() {
+        Converter converter = new Converter()
+
+        File svgFile = new File('does-not-exist.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'does-not-exist.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        // Assert that we *didn't* create a file for this!
+        assertFalse destination.exists()
+    }
+
+    @Test
+    void ignoreCompletelyInvalidSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'invalid.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'invalid.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        // Assert that we *didn't* create a file for this!
+        assertFalse destination.exists()
+    }
+
+    @Test
+    void ignoreSomewhatInvalidSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'invalid2.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'invalid2.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        // Assert that we *didn't* create a file for this!
+        assertFalse destination.exists()
+    }
 }
