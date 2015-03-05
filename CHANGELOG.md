@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+In Development
+--------------
+
+- #8: Handle invalid SVGs gracefully
+
 0.1.0
 -----
 
