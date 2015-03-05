@@ -21,6 +21,7 @@ import org.apache.batik.transcoder.TranscoderInput
 import org.apache.batik.transcoder.TranscoderOutput
 import org.apache.batik.transcoder.image.ImageTranscoder
 import org.apache.batik.transcoder.image.PNGTranscoder
+import org.gradle.api.logging.Logging
 
 /**
  * Converts SVGs to PNGs.
@@ -40,6 +41,12 @@ class Converter  {
      * @param destination the output destination
      */
     void transcode(SVGResource svgResource, Density density, File destination) {
+        if (!svgResource.canBeRead) {
+            Logging.getLogger(this.class)
+                    .warn("Cannot convert SVGResource $svgResource.file.name; file cannot be parsed")
+            return
+        }
+
         int outWidth = Math.round(svgResource.width * density.multiplier)
         int outHeight = Math.round(svgResource.height * density.multiplier)
         transcoder.addTranscodingHint(ImageTranscoder.KEY_WIDTH, new Float(outWidth))

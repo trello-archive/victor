@@ -118,4 +118,17 @@ class ConverterTests {
         assertTrue FileUtils.contentEquals(destinationHdpi, expectedHdpi)
         assertTrue FileUtils.contentEquals(destinationXhdpi, expectedXhdpi)
     }
+
+    @Test
+    void ignoreCompletelyInvalidSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'invalid.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'invalid.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        // Assert that we *didn't* create a file for this!
+        assertFalse destination.exists()
+    }
 }
