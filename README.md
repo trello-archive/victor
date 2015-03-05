@@ -76,5 +76,4 @@ Planned Features
 ----------------
 
 - 9-patch support
-- Better handling of invalid filenames for SVGs
 - Better handling for invalid SVGs (that don't rasterize)

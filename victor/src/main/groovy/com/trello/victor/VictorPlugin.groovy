@@ -42,7 +42,6 @@ class VictorPlugin implements Plugin<Project> {
                 // TODO: Use lazier evaluation for files by sticking this in a prep task?
                 FileCollection svgFiles = project.files()
                 variant.sourceSets.each { sourceSet ->
-                    // TODO: Only accept SVG files that are named properly; reject (with warning) invalid resource names
                     FileCollection filteredCollection = sourceSet.svg.filter { File file ->
                         file.name.endsWith '.svg'
                     }
