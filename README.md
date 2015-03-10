@@ -66,13 +66,16 @@ When using Android Studio on OSX, you might see this error:
 
 `Toolkit not found: apple.awt.CToolkit`
 
+This occurs because [Batik](http://xmlgraphics.apache.org/batik/), the SVG toolkit Victor uses, requires a working version of AWT.
+
 If this happens you should install and use [JDK 1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) for your instance of Android Studio. For instructions how, consult the "Mac OS X" section of [this article](https://intellij-support.jetbrains.com/entries/23455956-Selecting-the-JDK-version-the-IDE-will-run-under).
 
 Known Issues
 ------------
 
-- Android Studio doesn't automatically rebuild if the SVG folder is modified; if you change your SVGs you should make sure to rebuild in order to pull in the new assets.
-- Android Studio doesn't recognize SVG resources in XML (so no autocomplete + warnings). The Android plugin will support it someday.
+- Android Studio doesn't recognize generated resources in XML, so autocomplete doesn't work and you get warnings (even though the code works fine). Generated resources should be fully supported in future versions of the Android gradle plugin.
+
+- Android Studio doesn't automatically rebuild if the SVG folder is modified (like it does with other resources). Therefore, if you add SVGs you will have to manually rebuild before they will be generated.
 
 Planned Features
 ----------------
