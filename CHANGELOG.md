@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+0.1.2
+-----
+
+- Fixed plugin when no excluded densities are defined
+
 0.1.1
 -----
 

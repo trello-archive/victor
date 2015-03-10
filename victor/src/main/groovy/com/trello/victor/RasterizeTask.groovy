@@ -96,11 +96,11 @@ class RasterizeTask extends DefaultTask {
         }
     }
 
-    private File getResourceDir(Density density) {
+    File getResourceDir(Density density) {
         return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
     }
 
-    private String getDestinationFile(String name) {
+    String getDestinationFile(String name) {
         int suffixStart = name.lastIndexOf '.'
         return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.png"
     }
