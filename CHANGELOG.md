@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+0.1.3
+-----
+
+- Added support for using Victor in Android libraries
+
 0.1.2
 -----
 

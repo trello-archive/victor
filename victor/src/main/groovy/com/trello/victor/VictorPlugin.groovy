@@ -37,8 +37,19 @@ class VictorPlugin implements Plugin<Project> {
                 densities.remove(Density.valueOf(density.toUpperCase()))
             }
 
+            def variants = null
+            if (project.android.hasProperty('applicationVariants')) {
+                variants = project.android.applicationVariants
+            }
+            else if (project.android.hasProperty('libraryVariants')) {
+                variants = project.android.libraryVariants
+            }
+            else {
+                throw new IllegalStateException('Android project must have applicationVariants or libraryVariants!')
+            }
+
             // Register our task with the variant's resources
-            project.android.applicationVariants.all { variant ->
+            variants.all { variant ->
                 // TODO: Use lazier evaluation for files by sticking this in a prep task?
                 FileCollection svgFiles = project.files()
                 variant.sourceSets.each { sourceSet ->
