@@ -1,11 +1,17 @@
 Change Log
 ==========
 
+0.1.4
+-----
+*2015-05-07*
+
+- (#17) Fixed rasterize task being needlessly re-executed when using the Gradle daemon
+
 0.1.3
 -----
 *2015-04-30*
 
-- Added support for using Victor in Android libraries
+- (#14) Added support for using Victor in Android libraries
 
 0.1.2
 -----
