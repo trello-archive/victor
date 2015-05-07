@@ -37,6 +37,10 @@ class VictorPlugin implements Plugin<Project> {
                 densities.remove(Density.valueOf(density.toUpperCase()))
             }
 
+            // Keep order consistent
+            densities = densities.sort()
+            String densitiesAsStrings = densities.toListString()
+
             def variants = null
             if (project.android.hasProperty('applicationVariants')) {
                 variants = project.android.applicationVariants
@@ -67,6 +71,7 @@ class VictorPlugin implements Plugin<Project> {
                     sources = svgFiles
                     outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
                     includeDensities = densities
+                    includeDensitiesWorkaround = densitiesAsStrings
                     baseDpi = project.victor.svgDpi
                 }
 
