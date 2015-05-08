@@ -50,7 +50,7 @@ class RasterizeTask extends DefaultTask {
     /**
      * There is a bug determining whether this task is up-to-date with
      * `includeDensities`: because it is a List<Enum>, it fails when you
-     * have the daemon running the build. This variable is provided as a
+     * have the daemon running the build. This method is provided as a
      * workaround to test up-to-dateness, but should never actually used
      * beyond that.
      *
@@ -59,7 +59,9 @@ class RasterizeTask extends DefaultTask {
      * - https://issues.gradle.org/browse/GRADLE-3018
      */
     @Input
-    String includeDensitiesWorkaround
+    List<String> getDensitiesWorkaround() {
+        includeDensities.collect { it.toString() }
+    }
 
     /**
      * The DPI to use for relative-sized SVGs.
