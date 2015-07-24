@@ -16,6 +16,9 @@
 
 plugins {
     id 'nu.studer.plugindev' version '1.0.3'
+
+    // Should come along with plugindev, but plugindev uses an old version
+    id 'com.jfrog.bintray' version '1.2'
 }
 
 apply plugin: 'groovy'
