@@ -73,7 +73,7 @@ sourceSets {
 // Plugin publishing
 
 group = 'com.trello'
-version = '0.1.4-SNAPSHOT'
+version = '0.2.0-SNAPSHOT'
 
 plugindev {
     pluginId 'com.trello.victor'
