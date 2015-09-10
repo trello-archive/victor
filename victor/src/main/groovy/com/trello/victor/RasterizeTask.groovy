@@ -16,6 +16,7 @@
 
 package com.trello.victor
 
+import com.android.ide.common.vectordrawable.Svg2Vector
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
@@ -87,6 +88,9 @@ class RasterizeTask extends DefaultTask {
         includeDensities.each { Density density ->
             File resDir = getResourceDir(density)
             resDir.mkdirs()
+
+            File resDirV21 = getResourceDirV21(density)
+            resDirV21.mkdirs()
         }
 
         Converter converter = new Converter()
@@ -97,6 +101,19 @@ class RasterizeTask extends DefaultTask {
                 File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
                 converter.transcode(svgResource, density, destination)
                 logger.info("Converted $svgFile to $destination")
+
+                File destinationVector = new File(getResourceDirV21(density), getDestinationFileVector(svgFile.name))
+                if (!destinationVector.exists()) {
+                    destinationVector.createNewFile()
+                }
+                FileOutputStream outputStream = new FileOutputStream(destinationVector)
+                String error = Svg2Vector.parseSvgToXml(svgFile, outputStream)
+                if (error == null || error.length() == 0) {
+                    logger.info("Converted $svgFile to $destinationVector")
+                }
+                else {
+                    logger.warn("Error converting $svgFile: " + error)
+                }
             }
         }
 
@@ -115,8 +132,17 @@ class RasterizeTask extends DefaultTask {
         return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
     }
 
+    File getResourceDirV21(Density density) {
+        return new File(outputDir, "/drawable-${density.name().toLowerCase()}-v21")
+    }
+
     String getDestinationFile(String name) {
         int suffixStart = name.lastIndexOf '.'
         return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.png"
+    }
+
+    String getDestinationFileVector(String name) {
+        int suffixStart = name.lastIndexOf '.'
+        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.xml"
     }
 }
