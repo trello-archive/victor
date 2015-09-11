@@ -70,6 +70,10 @@ sourceSets {
     }
 }
 
+jar {
+    exclude 'com/android/utils/**'
+}
+
 // Plugin publishing
 
 group = 'com.trello'
