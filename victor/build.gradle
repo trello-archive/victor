@@ -37,7 +37,9 @@ repositories {
 // Batik dependencies
 
 dependencies {
-    compile 'org.apache.xmlgraphics:batik-codec:1.7'
+    compile 'org.apache.xmlgraphics:batik-codec:1.8'
+    compile 'org.apache.xmlgraphics:batik-anim:1.8'
+    compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.0.1'
     testCompile 'junit:junit:4.11'
 }
 

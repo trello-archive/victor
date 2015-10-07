@@ -16,11 +16,11 @@
 
 package com.trello.victor
 
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory
 import org.apache.batik.bridge.BridgeContext
 import org.apache.batik.bridge.UnitProcessor
 import org.apache.batik.bridge.UserAgent
 import org.apache.batik.bridge.UserAgentAdapter
-import org.apache.batik.dom.svg.SAXSVGDocumentFactory
 import org.apache.batik.util.XMLResourceDescriptor
 import org.gradle.api.logging.Logging
 import org.w3c.dom.svg.SVGDocument
