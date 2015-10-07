@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+0.1.5
+-----
+*2015-08-07*
+
+- (#28) Upgraded underlying rasterization lib to batik 1.8
+
 0.1.4
 -----
 *2015-05-07*
