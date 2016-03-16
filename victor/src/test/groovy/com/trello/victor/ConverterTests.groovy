@@ -120,6 +120,36 @@ class ConverterTests {
     }
 
     @Test
+    void canRasterizeImageTag() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'image-tag.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'image-tag-rasterize.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        assertTrue destination.exists()
+
+        File expected = new File(RESOURCE_PATH, 'image-tag-rasterize-expected.png')
+        assertTrue FileUtils.contentEquals(destination, expected)
+    }
+
+    @Test
+    void canRasterizeProblematicSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'problematic.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'problematic-rasterize.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        assertTrue destination.exists()
+
+        File expected = new File(RESOURCE_PATH, 'problematic-rasterize-expected.png')
+        assertTrue FileUtils.contentEquals(destination, expected)
+    }
+
+    @Test
     void ignoresNonexistantFiles() {
         Converter converter = new Converter()
 
