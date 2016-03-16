@@ -28,6 +28,11 @@ dependencies {
     compile localGroovy()
 }
 
+// This makes it easier to figure out issues with Travis CI builds
+test {
+    testLogging.showStandardStreams = true
+}
+
 apply plugin: 'maven'
 
 repositories {
