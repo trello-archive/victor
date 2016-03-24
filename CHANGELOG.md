@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+0.2.0
+-----
+*2016-03-24*
+
+- ([#40](https://github.com/trello/victor/pull/40)) Fixed some codec issues with Batik 1.8
+- ([#38]((https://github.com/trello/victor/pull/38)) Support Gradle 2.12
+
 0.1.5
 -----
 *2015-08-07*
