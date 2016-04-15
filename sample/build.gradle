@@ -17,9 +17,10 @@
 buildscript {
     repositories {
         jcenter()
+        mavenLocal()
     }
     dependencies {
-        classpath 'com.trello:victor:0.2.0'
+        classpath 'com.trello:victor:0.2.0-SNAPSHOT'
     }
 }
 

@@ -37,6 +37,7 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 // Batik dependencies
@@ -45,6 +46,7 @@ dependencies {
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:batik-anim:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.1'
+    compile 'com.romainpiel.svgtoandroid:svgtoandroid:1.0-SNAPSHOT'
     testCompile 'junit:junit:4.11'
 }
 

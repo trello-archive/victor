@@ -15,6 +15,8 @@
  */
 
 package com.trello.victor
+
+import com.romainpiel.svgtoandroid.SVG2AndroidTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -83,15 +85,13 @@ class VictorPlugin implements Plugin<Project> {
                     return
                 }
 
-                Task rasterizationTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
+                Task transformTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: SVG2AndroidTask) {
                     sources = svgFiles
                     outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
-                    includeDensities = densities
-                    baseDpi = project.victor.svgDpi
                 }
 
                 // Makes the magic happen (inserts resources so devs can use it)
-                variant.registerResGeneratingTask(rasterizationTask, rasterizationTask.outputDir)
+                variant.registerResGeneratingTask(transformTask, transformTask.outputDir)
             }
         }
     }
