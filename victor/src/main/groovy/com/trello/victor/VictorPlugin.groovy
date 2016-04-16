@@ -84,13 +84,25 @@ class VictorPlugin implements Plugin<Project> {
                     return
                 }
 
-                Task transformTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: SVG2AndroidTask) {
-                    sources = svgFiles
-                    outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+
+                File conversionOutputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+                final Task conversionTask
+                if (project.victor.generateVectorDrawables) {
+                    conversionTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: SVG2AndroidTask) {
+                        sources = svgFiles
+                        outputDir = conversionOutputDir
+                    }
+                } else {
+                    conversionTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
+                        sources = svgFiles
+                        outputDir = conversionOutputDir
+                        includeDensities = densities
+                        baseDpi = project.victor.svgDpi
+                    }
                 }
 
                 // Makes the magic happen (inserts resources so devs can use it)
-                variant.registerResGeneratingTask(transformTask, transformTask.outputDir)
+                variant.registerResGeneratingTask(conversionTask, conversionTask.outputDir)
             }
         }
     }
