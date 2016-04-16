@@ -37,7 +37,6 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 // Batik dependencies
@@ -46,14 +45,14 @@ dependencies {
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:batik-anim:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.1'
-    compile 'com.romainpiel.svgtoandroid:svgtoandroid:1.0-SNAPSHOT'
+    compile 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
     testCompile 'junit:junit:4.11'
 }
 
 // Plugin publishing
 
 group = 'com.trello'
-version = '0.2.0-SNAPSHOT'
+version = '0.2.0'
 
 plugindev {
     pluginId 'com.trello.victor'
