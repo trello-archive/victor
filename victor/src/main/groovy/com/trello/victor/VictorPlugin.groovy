@@ -16,7 +16,6 @@
 
 package com.trello.victor
 
-import com.romainpiel.svgtoandroid.SVG2AndroidTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
