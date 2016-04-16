@@ -2,6 +2,7 @@ package com.trello.victor
 
 import com.romainpiel.svgtoandroid.Svg2Vector
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
@@ -47,6 +48,7 @@ class SVG2AndroidTask extends DefaultTask {
             String error = Svg2Vector.parseSvgToXml(svgFile, outStream)
             if (!error.isEmpty()) {
                 logger.error(error)
+                throw new GradleException(error)
             }
 
             outStream.flush()
