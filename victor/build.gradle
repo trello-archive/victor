@@ -52,7 +52,7 @@ dependencies {
 // Plugin publishing
 
 group = 'com.trello'
-version = '0.2.0'
+version = '0.2.0-SNAPSHOT'
 
 plugindev {
     pluginId 'com.trello.victor'
