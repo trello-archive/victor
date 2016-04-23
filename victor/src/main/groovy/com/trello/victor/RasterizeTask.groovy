@@ -16,7 +16,10 @@
 
 package com.trello.victor
 
+import com.romainpiel.svgtoandroid.Svg2Vector
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.Nullable
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
@@ -69,6 +72,12 @@ class RasterizeTask extends DefaultTask {
     @Input
     int baseDpi
 
+    /**
+     * Flag to generate android vectors instead of PNGs
+     */
+    @Input
+    boolean generateVectorDrawables;
+
     @TaskAction
     def rasterize(IncrementalTaskInputs inputs) {
         // If the whole thing isn't incremental, delete the build folder (if it exists)
@@ -84,35 +93,70 @@ class RasterizeTask extends DefaultTask {
         }
 
         // Make sure all output directories exist
-        includeDensities.each { Density density ->
-            File resDir = getResourceDir(density)
-            resDir.mkdirs()
+        if (generateVectorDrawables) {
+            createOutput()
+        } else {
+            includeDensities.each { Density density ->
+                createOutput(density)
+            }
         }
 
-        Converter converter = new Converter()
-        svgFiles.each { File svgFile ->
-            SVGResource svgResource = new SVGResource(svgFile, baseDpi)
+        if (generateVectorDrawables) {
+            svgFiles.each { File svgFile ->
+                File resDir = getResourceDir()
+                File destination = new File(resDir, getDestinationFile(svgFile.name))
+                OutputStream outStream = new FileOutputStream(destination)
+                String error = Svg2Vector.parseSvgToXml(svgFile, outStream)
+                if (!error.isEmpty()) {
+                    logger.error(error)
+                    throw new GradleException(error)
+                }
 
-            includeDensities.each { Density density ->
-                File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
-                converter.transcode(svgResource, density, destination)
+                outStream.flush()
+                outStream.close()
+
                 logger.info("Converted $svgFile to $destination")
+            }
+        } else {
+            Converter converter = new Converter()
+            svgFiles.each { File svgFile ->
+                SVGResource svgResource = new SVGResource(svgFile, baseDpi)
+
+                includeDensities.each { Density density ->
+                    File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
+                    converter.transcode(svgResource, density, destination)
+                    logger.info("Converted $svgFile to $destination")
+                }
             }
         }
 
         inputs.removed { change ->
             logger.debug("$change.file.name was removed; removing it from generated folder")
 
-            includeDensities.each { Density density ->
-                File resDir = getResourceDir(density)
-                File file = new File(resDir, getDestinationFile(change.file.name))
-                file.delete()
+            if (generateVectorDrawables) {
+                cleanupInput()
+            } else {
+                includeDensities.each { Density density ->
+                    cleanupInput(density)
+                }
             }
         }
     }
 
-    File getResourceDir(Density density) {
-        return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
+    void createOutput(@Nullable Density density = null) {
+        File resDir = getResourceDir(density)
+        resDir.mkdirs()
+    }
+
+    void cleanupInput(@Nullable Density density = null) {
+        File resDir = getResourceDir(density)
+        File file = new File(resDir, getDestinationFile(change.file.name))
+        file.delete()
+    }
+
+    File getResourceDir(@Nullable Density density = null) {
+        String prefix = density? "-${density.name().toLowerCase()}" : ""
+        return new File(outputDir, "/drawable${prefix}")
     }
 
     String getDestinationFile(String name) {
