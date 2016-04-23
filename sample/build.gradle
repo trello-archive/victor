@@ -54,9 +54,6 @@ victor {
 
     // Do not generate these densities for SVG assets
     excludeDensities = [ 'ldpi', 'xxxhdpi' ]
-
-    // Do not generate android vector drawables (generate PNGs for the specified densities)
-    generateVectorDrawables = false
 }
 
 dependencies {
