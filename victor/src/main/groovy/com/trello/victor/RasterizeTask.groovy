@@ -155,8 +155,8 @@ class RasterizeTask extends DefaultTask {
     }
 
     File getResourceDir(@Nullable Density density = null) {
-        String prefix = density? "-${density.name().toLowerCase()}" : ""
-        return new File(outputDir, "/drawable${prefix}")
+        String suffix = density? "-${density.name().toLowerCase()}" : ""
+        return new File(outputDir, "/drawable${suffix}")
     }
 
     String getDestinationFile(String name) {
