@@ -134,10 +134,10 @@ class RasterizeTask extends DefaultTask {
             logger.debug("$change.file.name was removed; removing it from generated folder")
 
             if (generateVectorDrawables) {
-                cleanupInput()
+                cleanupInput(change)
             } else {
                 includeDensities.each { Density density ->
-                    cleanupInput(density)
+                    cleanupInput(change, density)
                 }
             }
         }
@@ -148,9 +148,9 @@ class RasterizeTask extends DefaultTask {
         resDir.mkdirs()
     }
 
-    void cleanupInput(@Nullable Density density = null) {
+    void cleanupInput(InputFileDetails inputFileDetails, @Nullable Density density = null) {
         File resDir = getResourceDir(density)
-        File file = new File(resDir, getDestinationFile(change.file.name))
+        File file = new File(resDir, getDestinationFile(inputFileDetails.file.name))
         file.delete()
     }
 
