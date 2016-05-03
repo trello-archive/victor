@@ -15,6 +15,7 @@
  */
 
 package com.trello.victor
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -83,15 +84,18 @@ class VictorPlugin implements Plugin<Project> {
                     return
                 }
 
-                Task rasterizationTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
+
+                File conversionOutputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+                Task conversionTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
                     sources = svgFiles
-                    outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+                    outputDir = conversionOutputDir
                     includeDensities = densities
                     baseDpi = project.victor.svgDpi
+                    generateVectorDrawables = project.victor.generateVectorDrawables
                 }
 
                 // Makes the magic happen (inserts resources so devs can use it)
-                variant.registerResGeneratingTask(rasterizationTask, rasterizationTask.outputDir)
+                variant.registerResGeneratingTask(conversionTask, conversionTask.outputDir)
             }
         }
     }

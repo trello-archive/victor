@@ -42,4 +42,17 @@ class VictorPluginExtension {
      */
     List<String> excludeDensities = []
 
+    /**
+     * [Experimental]
+     *
+     * If set to true, Victor will generate Android vector drawables
+     * If not, it will generate PNGs in all specified densities
+     *
+     * Note that the svgDpi and excludeDensities are ignored if
+     * generateVectorDrawables is set to true
+     *
+     * The default value is false
+     */
+    boolean generateVectorDrawables = false
+
 }
