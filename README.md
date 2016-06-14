@@ -18,7 +18,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.trello:victor:0.2.0'
+        classpath 'com.trello:victor:0.3.0'
     }
 }
 
@@ -56,6 +56,12 @@ victor {
 
     // Do not generate these densities for SVG assets
     excludeDensities = [ 'ldpi', 'xxxhdpi' ]
+
+    // WARNING: EXPERIMENTAL
+    // Generates Android drawables instead of PNGs.
+    //
+    // This is known not to work on only a subset of SVGs (e.g., does not support any value besides px).
+    generateVectorDrawables = true
 }
 ```
 
