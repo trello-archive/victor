@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+0.3.0
+-----
+*2016-06-14*
+
+- ([#43](https://github.com/trello/victor/pull/43)) Experimental SVG -> Android drawable support
+
 0.2.0
 -----
 *2016-03-24*
