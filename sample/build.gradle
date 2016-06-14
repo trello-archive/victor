@@ -38,6 +38,9 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+
+        // In case you use generateVectorDrawables = true
+        vectorDrawables.useSupportLibrary = true
     }
 
     // Define the 'svg' source set for any flavors/build types and/or 'main' for all of them
@@ -54,6 +57,9 @@ victor {
 
     // Do not generate these densities for SVG assets
     excludeDensities = [ 'ldpi', 'xxxhdpi' ]
+
+    // Set this to "true" if you want to generate Android vectors instead of PNGs
+    // generateVectorDrawables = false
 }
 
 dependencies {
