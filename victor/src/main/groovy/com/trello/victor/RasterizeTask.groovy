@@ -104,7 +104,7 @@ class RasterizeTask extends DefaultTask {
         if (generateVectorDrawables) {
             svgFiles.each { File svgFile ->
                 File resDir = getResourceDir()
-                File destination = new File(resDir, getDestinationFile(svgFile.name))
+                File destination = new File(resDir, getDestinationFile(svgFile.name, 'xml'))
                 OutputStream outStream = new FileOutputStream(destination)
                 String error = Svg2Vector.parseSvgToXml(svgFile, outStream)
                 if (!error.isEmpty()) {
@@ -123,7 +123,7 @@ class RasterizeTask extends DefaultTask {
                 SVGResource svgResource = new SVGResource(svgFile, baseDpi)
 
                 includeDensities.each { Density density ->
-                    File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
+                    File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name, 'png'))
                     converter.transcode(svgResource, density, destination)
                     logger.info("Converted $svgFile to $destination")
                 }
@@ -134,10 +134,14 @@ class RasterizeTask extends DefaultTask {
             logger.debug("$change.file.name was removed; removing it from generated folder")
 
             if (generateVectorDrawables) {
-                cleanupInput(change)
+                File resDir = getResourceDir()
+                File file = new File(resDir, getDestinationFile(inputFileDetails.file.name, 'xml'))
+                file.delete()
             } else {
                 includeDensities.each { Density density ->
-                    cleanupInput(change, density)
+                    File resDir = getResourceDir(density)
+                    File file = new File(resDir, getDestinationFile(inputFileDetails.file.name, 'png'))
+                    file.delete()
                 }
             }
         }
@@ -148,19 +152,13 @@ class RasterizeTask extends DefaultTask {
         resDir.mkdirs()
     }
 
-    void cleanupInput(InputFileDetails inputFileDetails, @Nullable Density density = null) {
-        File resDir = getResourceDir(density)
-        File file = new File(resDir, getDestinationFile(inputFileDetails.file.name))
-        file.delete()
-    }
-
     File getResourceDir(@Nullable Density density = null) {
         String suffix = density? "-${density.name().toLowerCase()}" : ""
         return new File(outputDir, "/drawable${suffix}")
     }
 
-    String getDestinationFile(String name) {
+    String getDestinationFile(String name, String suffix) {
         int suffixStart = name.lastIndexOf '.'
-        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.png"
+        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.$suffix"
     }
 }
