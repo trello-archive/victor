@@ -83,6 +83,8 @@ Known Issues
 
 - Android Studio doesn't automatically rebuild if the SVG folder is modified (like it does with other resources). Therefore, if you add SVGs you will have to manually rebuild before they will be generated.
 
+- Victor fails to corretly rasterize some SVG's containing 'mask="url(#mask-2)"' references, due to bugs in the rasterizer library Batik which it uses. Some programs like Sketch sometimes produces such artwork.
+
 Planned Features
 ----------------
 
