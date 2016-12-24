@@ -79,11 +79,11 @@ If this happens you should install and use [JDK 1.7](http://www.oracle.com/techn
 Known Issues
 ------------
 
-- Android Studio doesn't recognize generated resources in XML, so autocomplete doesn't work and you get warnings (even though the code works fine). Generated resources should be fully supported in future versions of the Android gradle plugin.
+- Android Studio doesn't recognize generated resources in XML, so autocomplete doesn't work and you get warnings (even though the code works fine). Generated resources should be fully supported in future versions of the Android Gradle plugin.
 
 - Android Studio doesn't automatically rebuild if the SVG folder is modified (like it does with other resources). Therefore, if you add SVGs you will have to manually rebuild before they will be generated.
 
-- Victor fails to corretly rasterize some SVG's containing 'mask="url(#mask-2)"' references, due to bugs in the rasterizer library Batik which it uses. Some programs like Sketch sometimes produces such artwork.
+- Due to bugs in Batik, the SVG toolkit used by Victor, some SVGs containing 'mask="url(#mask-2)"' references are not rasterized correctly. Sketch and other tools occasionally produce assets with these references.
 
 Planned Features
 ----------------
