@@ -18,7 +18,7 @@ plugins {
     id 'nu.studer.plugindev' version '1.0.3'
 
     // Should come along with plugindev, but plugindev uses an old version
-    id 'com.jfrog.bintray' version '1.2'
+    id 'com.jfrog.bintray' version '1.6'
 }
 
 apply plugin: 'groovy'
@@ -26,6 +26,11 @@ apply plugin: 'groovy'
 dependencies {
     compile gradleApi()
     compile localGroovy()
+}
+
+// This makes it easier to figure out issues with Travis CI builds
+test {
+    testLogging.showStandardStreams = true
 }
 
 apply plugin: 'maven'
@@ -37,7 +42,10 @@ repositories {
 // Batik dependencies
 
 dependencies {
-    compile 'org.apache.xmlgraphics:batik-codec:1.7'
+    compile 'org.apache.xmlgraphics:batik-codec:1.8'
+    compile 'org.apache.xmlgraphics:batik-anim:1.8'
+    compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.1'
+    compile 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
     testCompile 'junit:junit:4.11'
 }
 
@@ -77,7 +85,6 @@ jar {
 // Plugin publishing
 
 group = 'com.trello'
-version = '0.2.0-SNAPSHOT'
 
 plugindev {
     pluginId 'com.trello.victor'

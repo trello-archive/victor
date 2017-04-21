@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #525661;
+        fill-opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #78ad05;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g>
+    <rect width="48" height="48" class="cls-1"/> <!-- This makes the whole png black in Batik 1.7 but in 1.8 it works fine -->
+    <path d="M34.000,36.000 L14.000,36.000 C12.895,36.000 12.000,35.105 12.000,34.000 L12.000,14.000 C12.000,12.895 12.895,12.000 14.000,12.000 L34.000,12.000 C35.105,12.000 36.000,12.895 36.000,14.000 L36.000,34.000 C36.000,35.105 35.105,36.000 34.000,36.000 ZM30.470,17.000 L21.126,28.140 L17.284,24.860 L15.998,26.419 L20.594,30.341 L20.594,30.341 L21.360,30.995 L32.002,18.308 L30.470,17.000 Z" class="cls-2"/>
+  </g>
+</svg>

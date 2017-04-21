@@ -15,9 +15,9 @@
  */
 
 package com.trello.victor
-
-import com.android.ide.common.vectordrawable.Svg2Vector
 import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.Nullable
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
@@ -70,6 +70,12 @@ class RasterizeTask extends DefaultTask {
     @Input
     int baseDpi
 
+    /**
+     * Flag to generate android vectors instead of PNGs
+     */
+    @Input
+    boolean generateVectorDrawables;
+
     @TaskAction
     def rasterize(IncrementalTaskInputs inputs) {
         // If the whole thing isn't incremental, delete the build folder (if it exists)
@@ -85,21 +91,23 @@ class RasterizeTask extends DefaultTask {
         }
 
         // Make sure all output directories exist
-        includeDensities.each { Density density ->
-            File resDir = getResourceDir(density)
-            resDir.mkdirs()
 
-            File resDirV21 = getResourceDirV21(density)
-            resDirV21.mkdirs()
         }
 
-        Converter converter = new Converter()
-        svgFiles.each { File svgFile ->
-            SVGResource svgResource = new SVGResource(svgFile, baseDpi)
+        if (generateVectorDrawables) {
+            svgFiles.each { File svgFile ->
+                File resDir = getResourceDir()
+                File destination = new File(resDir, getDestinationFile(svgFile.name, 'xml'))
+                OutputStream outStream = new FileOutputStream(destination)
+                String error = Svg2Vector.parseSvgToXml(svgFile, outStream)
+                if (!error.isEmpty()) {
+                    logger.error(error)
+                    throw new GradleException(error)
+                }
 
-            includeDensities.each { Density density ->
-                File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name))
-                converter.transcode(svgResource, density, destination)
+                outStream.flush()
+                outStream.close()
+
                 logger.info("Converted $svgFile to $destination")
 
                 File destinationVector = new File(getResourceDirV21(density), getDestinationFileVector(svgFile.name))
@@ -115,30 +123,49 @@ class RasterizeTask extends DefaultTask {
                     logger.warn("Error converting $svgFile: " + error)
                 }
             }
+        } else {
+            Converter converter = new Converter()
+            svgFiles.each { File svgFile ->
+                SVGResource svgResource = new SVGResource(svgFile, baseDpi)
+
+                includeDensities.each { Density density ->
+                    File destination = new File(getResourceDir(density), getDestinationFile(svgFile.name, 'png'))
+                    converter.transcode(svgResource, density, destination)
+                    logger.info("Converted $svgFile to $destination")
+                }
+            }
         }
 
         inputs.removed { change ->
             logger.debug("$change.file.name was removed; removing it from generated folder")
 
-            includeDensities.each { Density density ->
-                File resDir = getResourceDir(density)
-                File file = new File(resDir, getDestinationFile(change.file.name))
+            if (generateVectorDrawables) {
+                File resDir = getResourceDir()
+                File file = new File(resDir, getDestinationFile(inputFileDetails.file.name, 'xml'))
                 file.delete()
+            } else {
+                includeDensities.each { Density density ->
+                    File resDir = getResourceDir(density)
+                    File file = new File(resDir, getDestinationFile(inputFileDetails.file.name, 'png'))
+                    file.delete()
+                }
             }
         }
     }
 
-    File getResourceDir(Density density) {
-        return new File(outputDir, "/drawable-${density.name().toLowerCase()}")
+    void createOutput(@Nullable Density density = null) {
+        File resDir = getResourceDir(density)
+        resDir.mkdirs()
     }
 
-    File getResourceDirV21(Density density) {
-        return new File(outputDir, "/drawable-${density.name().toLowerCase()}-v21")
+    File getResourceDir(@Nullable Density density = null) {
+        String suffix = density? "-${density.name().toLowerCase()}" : ""
+        return new File(outputDir, "/drawable${suffix}")
     }
 
-    String getDestinationFile(String name) {
+
         int suffixStart = name.lastIndexOf '.'
-        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.png"
+        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.$suffix"
     }
 
     String getDestinationFileVector(String name) {

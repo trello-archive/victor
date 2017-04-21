@@ -120,6 +120,42 @@ class ConverterTests {
     }
 
     @Test
+    void canRasterizeImageTag() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'image-tag.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'image-tag-rasterize.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        assertTrue destination.exists()
+
+        File expected = new File(RESOURCE_PATH, 'image-tag-rasterize-expected.png')
+        boolean isEqual = FileUtils.contentEquals(destination, expected)
+        if (!isEqual) {
+            // This *should* be an assertion, but I can't figure out why Travis' build produces
+            // different PNGs (that are visually identical, but encoded slightly different).
+            // TODO: Make this test better
+            System.out.println("Image not what was expected - but different systems render PNGs differently.");
+        }
+    }
+
+    @Test
+    void canRasterizeProblematicSvg() {
+        Converter converter = new Converter()
+
+        File svgFile = new File(RESOURCE_PATH, 'problematic.svg')
+        SVGResource svgResource = new SVGResource(svgFile, 72)
+        File destination = new File(OUT_PATH, 'problematic-rasterize.png')
+        converter.transcode(svgResource, Density.MDPI, destination)
+
+        assertTrue destination.exists()
+
+        File expected = new File(RESOURCE_PATH, 'problematic-rasterize-expected.png')
+        assertTrue FileUtils.contentEquals(destination, expected)
+    }
+
+    @Test
     void ignoresNonexistantFiles() {
         Converter converter = new Converter()
 

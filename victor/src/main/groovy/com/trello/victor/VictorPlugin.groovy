@@ -15,20 +15,38 @@
  */
 
 package com.trello.victor
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.file.DefaultSourceDirectorySet
+import org.gradle.util.GradleVersion
 
 class VictorPlugin implements Plugin<Project> {
 
     void apply(Project project) {
         project.extensions.create('victor', VictorPluginExtension)
 
+        // We can either implement our own SourceDirectorySet (which is a PITA)
+        // or we can suffer the lesser pains of accessing internal APIs
+        final boolean useNewSourceDirectorySet =
+            GradleVersion.current().compareTo(GradleVersion.version("2.12")) >= 0
+
         // Add 'svg' as a source set extension
         project.android.sourceSets.all { sourceSet ->
-            sourceSet.extensions.create('svg', DefaultSourceDirectorySet, 'svg', project.fileResolver)
+            if (useNewSourceDirectorySet) {
+                Class defaultFileTreeFactoryClass =
+                    Class.forName("org.gradle.api.internal.file.collections.DefaultDirectoryFileTreeFactory")
+
+                sourceSet.extensions.create('svg', DefaultSourceDirectorySet, 'svg',
+                    project.fileResolver,
+                    defaultFileTreeFactoryClass.getConstructor().newInstance())
+            }
+            else {
+                sourceSet.extensions.create('svg', DefaultSourceDirectorySet, 'svg',
+                    project.fileResolver)
+            }
         }
 
         project.afterEvaluate {
@@ -66,15 +84,18 @@ class VictorPlugin implements Plugin<Project> {
                     return
                 }
 
-                Task rasterizationTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
+
+                File conversionOutputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+                Task conversionTask = project.task("rasterizeSvgsFor${variant.name.capitalize()}", type: RasterizeTask) {
                     sources = svgFiles
-                    outputDir = project.file("$project.buildDir/generated/res/$flavorName/$buildType.name/svg/")
+                    outputDir = conversionOutputDir
                     includeDensities = densities
                     baseDpi = project.victor.svgDpi
+                    generateVectorDrawables = project.victor.generateVectorDrawables
                 }
 
                 // Makes the magic happen (inserts resources so devs can use it)
-                variant.registerResGeneratingTask(rasterizationTask, rasterizationTask.outputDir)
+                variant.registerResGeneratingTask(conversionTask, conversionTask.outputDir)
             }
         }
     }
