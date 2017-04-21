@@ -49,10 +49,42 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/groovy'
+            include 'com/trello/**'
+
+            // Try to include the minimum necessary from the SDK tools
+            String toolsDir = "$rootDir/android-tools-base/"
+
+            srcDir "$toolsDir/sdk-common/src/main/java/"
+            include 'com/android/ide/common/vectordrawable/**'
+            include 'com/android/ide/common/blame/parser/**'
+            include 'com/android/ide/common/util/**'
+            include 'com/android/ide/common/process/**'
+
+            srcDir "$toolsDir/annotations/src/main/java/"
+            include 'com/android/annotations/**'
+
+            srcDir "$toolsDir/common/src/main/java/"
+            include 'com/android/ide/common/blame/**'
+            include 'com/android/utils/**'
+            include 'com/android/SdkConstants.java'
+
+            srcDir "$toolsDir/layoutlib-api/src/main/java"
+            include 'com/android/resources/**'
+        }
+    }
+}
+
+jar {
+    exclude 'com/android/utils/**'
+}
+
 // Plugin publishing
 
 group = 'com.trello'
-version = '0.3.0-SNAPSHOT'
 
 plugindev {
     pluginId 'com.trello.victor'

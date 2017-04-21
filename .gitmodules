@@ -1,0 +1,3 @@
+[submodule "android-tools-base"]
+	path = android-tools-base
+	url = https://android.googlesource.com/platform/tools/base

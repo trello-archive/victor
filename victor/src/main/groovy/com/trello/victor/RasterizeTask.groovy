@@ -15,8 +15,6 @@
  */
 
 package com.trello.victor
-
-import com.romainpiel.svgtoandroid.Svg2Vector
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Nullable
@@ -93,12 +91,7 @@ class RasterizeTask extends DefaultTask {
         }
 
         // Make sure all output directories exist
-        if (generateVectorDrawables) {
-            createOutput()
-        } else {
-            includeDensities.each { Density density ->
-                createOutput(density)
-            }
+
         }
 
         if (generateVectorDrawables) {
@@ -116,6 +109,19 @@ class RasterizeTask extends DefaultTask {
                 outStream.close()
 
                 logger.info("Converted $svgFile to $destination")
+
+                File destinationVector = new File(getResourceDirV21(density), getDestinationFileVector(svgFile.name))
+                if (!destinationVector.exists()) {
+                    destinationVector.createNewFile()
+                }
+                FileOutputStream outputStream = new FileOutputStream(destinationVector)
+                String error = Svg2Vector.parseSvgToXml(svgFile, outputStream)
+                if (error == null || error.length() == 0) {
+                    logger.info("Converted $svgFile to $destinationVector")
+                }
+                else {
+                    logger.warn("Error converting $svgFile: " + error)
+                }
             }
         } else {
             Converter converter = new Converter()
@@ -157,8 +163,13 @@ class RasterizeTask extends DefaultTask {
         return new File(outputDir, "/drawable${suffix}")
     }
 
-    String getDestinationFile(String name, String suffix) {
+
         int suffixStart = name.lastIndexOf '.'
         return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.$suffix"
+    }
+
+    String getDestinationFileVector(String name) {
+        int suffixStart = name.lastIndexOf '.'
+        return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.xml"
     }
 }
