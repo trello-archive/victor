@@ -1,0 +1,8 @@
+audit(0.399:1) initialized
+audit(1420176060.669:11): policy loaded
+auid=4294967295 ses=4294967295
+audit(1420176060.669:12): config_always_
+enforce - true; enforcing=1 old_enforcin
+g=0 auid=4294967295 ses=4294967295
+
+--(10021176325557f 214 bytes)--
