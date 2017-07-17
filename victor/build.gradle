@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id 'nu.studer.plugindev' version '1.0.3'
+    id 'nu.studer.plugindev' version '1.0.6'
 
     // Should come along with plugindev, but plugindev uses an old version
     id 'com.jfrog.bintray' version '1.6'
@@ -42,11 +42,11 @@ repositories {
 // Batik dependencies
 
 dependencies {
-    compile 'org.apache.xmlgraphics:batik-codec:1.8'
-    compile 'org.apache.xmlgraphics:batik-anim:1.8'
-    compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.1'
+    compile 'org.apache.xmlgraphics:batik-codec:1.9'
+    compile 'org.apache.xmlgraphics:batik-anim:1.9'
+    compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.2'
     compile 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
 
 // Plugin publishing
