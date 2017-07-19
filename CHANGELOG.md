@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+1.0.0
+-----
+*2017-07-19*
+
+I'm calling this 1.0 for no other reason than that this is going to be considered stable; no major
+changes to the API from here on out.
+
+- ([#65](https://github.com/trello/victor/pull/65)) Upgraded to Batik 1.9
+
 0.3.0
 -----
 *2016-06-14*
