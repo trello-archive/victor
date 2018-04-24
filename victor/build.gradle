@@ -24,8 +24,8 @@ plugins {
 apply plugin: 'groovy'
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
 }
 
 // This makes it easier to figure out issues with Travis CI builds
@@ -42,10 +42,10 @@ repositories {
 // Batik dependencies
 
 dependencies {
-    compile 'org.apache.xmlgraphics:batik-codec:1.9'
-    compile 'org.apache.xmlgraphics:batik-anim:1.9'
-    compile 'org.apache.xmlgraphics:xmlgraphics-commons:2.2'
-    compile 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
+    implementation 'org.apache.xmlgraphics:batik-codec:1.9'
+    implementation 'org.apache.xmlgraphics:batik-anim:1.9'
+    implementation 'org.apache.xmlgraphics:xmlgraphics-commons:2.2'
+    implementation 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
     testCompile 'junit:junit:4.12'
 }
 
