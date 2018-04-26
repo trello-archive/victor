@@ -30,7 +30,7 @@ apply plugin: 'com.trello.victor'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.trello.victorsample"
@@ -69,5 +69,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support:appcompat-v7:25.4.0'
 }
