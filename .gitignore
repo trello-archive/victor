@@ -27,3 +27,7 @@ proguard/
 
 # Ignored repo build directory
 repo/
+
+# Ignore android studio / IJ project files
+.idea
+*.iml
