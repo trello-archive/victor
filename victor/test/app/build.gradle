@@ -44,13 +44,6 @@ android {
         // In case you use generateVectorDrawables = true
         vectorDrawables.useSupportLibrary = true
     }
-
-    // Define the 'svg' source set for any flavors/build types and/or 'main' for all of them
-//    sourceSets {
-//        main {
-//            svg.srcDir 'src/main/svg'
-//        }
-//    }
 }
 
 victor {
