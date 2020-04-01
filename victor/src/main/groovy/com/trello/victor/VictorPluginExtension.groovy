@@ -22,6 +22,11 @@ package com.trello.victor
 class VictorPluginExtension {
 
     /**
+     * SVG input directories
+     */
+    List<File> svgDirs = []
+
+    /**
      * The DPI to use for SVG assets whose size is defined in relative terms.
      *
      * For example, if the size is 1in x 1in, you would need to define how many
@@ -43,6 +48,11 @@ class VictorPluginExtension {
     List<String> excludeDensities = []
 
     /**
+     * Resource output dir
+     */
+    File outputDir
+
+    /**
      * [Experimental]
      *
      * If set to true, Victor will generate Android vector drawables
@@ -54,5 +64,4 @@ class VictorPluginExtension {
      * The default value is false
      */
     boolean generateVectorDrawables = false
-
 }

@@ -16,10 +16,12 @@
 
 package com.trello.victor
 
+import org.gradle.api.tasks.InputDirectory
+
+import javax.annotation.Nullable
 import com.romainpiel.svgtoandroid.Svg2Vector
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.Nullable
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
@@ -37,7 +39,7 @@ class RasterizeTask extends DefaultTask {
      * The input SVGs.
      */
     @InputFiles
-    FileCollection sources
+    List<File> inputFiles
 
     /**
      * The output directory.
@@ -88,8 +90,10 @@ class RasterizeTask extends DefaultTask {
 
         List<File> svgFiles = []
         inputs.outOfDate { InputFileDetails change ->
-            logger.debug("$change.file.name out of date; converting")
-            svgFiles.add change.file
+            if (change.file.name.endsWith(".svg")) {
+                logger.info("$change.file.name out of date; converting")
+                svgFiles.add change.file
+            }
         }
 
         // Make sure all output directories exist

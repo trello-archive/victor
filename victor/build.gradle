@@ -22,6 +22,7 @@ plugins {
 }
 
 apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
 
 dependencies {
     implementation gradleApi()
@@ -46,6 +47,7 @@ dependencies {
     implementation 'org.apache.xmlgraphics:batik-anim:1.9'
     implementation 'org.apache.xmlgraphics:xmlgraphics-commons:2.2'
     implementation 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
+    testImplementation gradleTestKit()
     testCompile 'junit:junit:4.12'
 }
 

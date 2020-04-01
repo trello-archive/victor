@@ -33,29 +33,22 @@ Also, your Android Gradle plugin (`com.android.tools.build:gradle`) must be at l
 Usage
 -----
 
-Victor adds the `svg` source set to the Android plugin. You can define where your SVG folders are in the same way you define any other source sets:
-
-```gradle
-android {
-    sourceSets {
-        main {
-            svg.srcDir 'src/main/svg'
-        }
-    }
-}
-```
-
 You can have multiple SVG folders for a variety of build types/product flavors; or you can just use 'main' to cover them all.
 
 Additional configuration can be done in the `victor` closure:
 
 ```gradle
 victor {
+    svdDirs = [ file('src/main/svg') ]
+
     // Any assets defined in relative terms needs a base DPI specified
     svgDpi = 72
 
     // Do not generate these densities for SVG assets
     excludeDensities = [ 'ldpi', 'xxxhdpi' ]
+
+    // Optional resource output directory. Uses build directory by default.
+    outputDir = file('generated/res')
 
     // WARNING: EXPERIMENTAL
     // Generates Android drawables instead of PNGs.

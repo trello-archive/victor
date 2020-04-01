@@ -17,16 +17,18 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.trello:victor:1.0.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
 }
 
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.trello.victor'
+}
 
-// Make sure to apply this plugin *after* the Android plugin
-apply plugin: 'com.trello.victor'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
@@ -44,19 +46,25 @@ android {
     }
 
     // Define the 'svg' source set for any flavors/build types and/or 'main' for all of them
-    sourceSets {
-        main {
-            svg.srcDir 'src/main/svg'
-        }
-    }
+//    sourceSets {
+//        main {
+//            svg.srcDir 'src/main/svg'
+//        }
+//    }
 }
 
 victor {
+    svgDirs = [
+            file('src/main/svg/')
+    ]
+
     // Any assets defined in relative terms needs a base DPI specified
     svgDpi = 72
 
     // Do not generate these densities for SVG assets
-    excludeDensities = [ 'ldpi', 'xxxhdpi' ]
+    excludeDensities = ['ldpi', 'xxxhdpi']
+
+    // outputDir = file('generated/res')
 
     // Set this to "true" if you want to generate Android vectors instead of PNGs
     generateVectorDrawables = false
