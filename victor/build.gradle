@@ -44,7 +44,7 @@ repositories {
 dependencies {
     implementation 'org.apache.xmlgraphics:batik-codec:1.12'
     implementation 'org.apache.xmlgraphics:batik-anim:1.12'
-    implementation 'org.apache.xmlgraphics:xmlgraphics-commons:2.2'
+    implementation 'org.apache.xmlgraphics:xmlgraphics-commons:2.4'
     implementation 'com.romainpiel.svgtoandroid:svgtoandroid:0.1.0'
     testImplementation 'junit:junit:4.13'
 }
