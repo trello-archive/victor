@@ -28,8 +28,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.trello.victor'
 ```
 
-Also, your Android Gradle plugin (`com.android.tools.build:gradle`) must be at least version 1.1.+
-
 Usage
 -----
 
