@@ -19,7 +19,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.trello:victor:1.0.0'
+        classpath 'com.trello:victor:1.1.0'
     }
 }
 
@@ -40,6 +40,11 @@ android {
 
         // In case you use generateVectorDrawables = true
         vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     // Define the 'svg' source set for any flavors/build types and/or 'main' for all of them
@@ -68,5 +73,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 }
