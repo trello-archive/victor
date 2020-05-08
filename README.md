@@ -18,7 +18,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.trello:victor:1.0.0'
+        classpath 'com.trello:victor:1.1.0'
     }
 }
 
