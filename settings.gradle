@@ -1,5 +1,2 @@
 include ':victor'
-
-// Temporarily exclude this sample, because it uses the published version of Victor
-// (which is incompatible with Gradle 6 atm).
-// include ':sample'
+include ':sample'
