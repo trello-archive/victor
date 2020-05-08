@@ -29,13 +29,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.trello.victor'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.trello.victorsample"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
