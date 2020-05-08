@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+1.1.0
+-----
+*2020-05-08*
+
+- ([#71](https://github.com/trello/victor/pull/71)) Added support for Gradle 6
+- ([#72](https://github.com/trello/victor/pull/72)) Upgraded to Batik 1.12
+
 1.0.0
 -----
 *2017-07-19*
