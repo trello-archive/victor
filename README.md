@@ -39,6 +39,26 @@ android {
         main {
             svg.srcDir 'src/main/svg'
         }
+    }   
+   sourceSets.all { // this sets for all at once
+        svg.srcDir "src/${name}/svg"
+    }
+}
+```
+```Kotlin
+val Any.extensions get() = (this as org.gradle.api.plugins.ExtensionAware).extensions
+android {
+    sourceSets {
+        // Example with setting one
+        named("main") {
+            val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
+            svgSourceSet.srcDir("src/${name}/svg")
+        }
+    }
+    // Example setting all
+    sourceSets.all {
+        val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
+        svgSourceSet.srcDir("src/${name}/svg")
     }
 }
 ```
@@ -62,7 +82,12 @@ victor {
     generateVectorDrawables = true
 }
 ```
-
+and in Kotlin
+```kotlin
+configure<com.trello.victor.VictorPluginExtension> {
+    generateVectorDrawables = true
+}
+```
 OSX Issues
 ----------
 
