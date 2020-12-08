@@ -39,26 +39,9 @@ android {
         main {
             svg.srcDir 'src/main/svg'
         }
-    }   
+    }
    sourceSets.all { // this sets for all at once
         svg.srcDir "src/${name}/svg"
-    }
-}
-```
-```Kotlin
-val Any.extensions get() = (this as org.gradle.api.plugins.ExtensionAware).extensions
-android {
-    sourceSets {
-        // Example with setting one
-        named("main") {
-            val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
-            svgSourceSet.srcDir("src/${name}/svg")
-        }
-    }
-    // Example setting all
-    sourceSets.all {
-        val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
-        svgSourceSet.srcDir("src/${name}/svg")
     }
 }
 ```
@@ -82,12 +65,44 @@ victor {
     generateVectorDrawables = true
 }
 ```
-and in Kotlin
+
+Usage (Kotlin)
+-----
+
+Here's how to configure the Victors svg source-set extension via Gradle Kotlin DSL, with both an example for an individual source-set and for setting for all source-sets.
+
+```Kotlin
+val Any.extensions get() = (this as org.gradle.api.plugins.ExtensionAware).extensions
+android {
+    sourceSets {
+        // Example with setting one
+        named("main") {
+            val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
+            svgSourceSet.srcDir("src/${name}/svg")
+        }
+    }
+    // Example setting all
+    sourceSets.all {
+        val svgSourceSet = this.extensions["svg"] as SourceDirectorySet
+        svgSourceSet.srcDir("src/${name}/svg")
+    }
+}
+```
+
+You can have multiple SVG folders for a variety of build types/product flavors; or you can just use 'main' to cover them all.
+
+Additional configuration can be done in the `victor` closure:
+
 ```kotlin
 configure<com.trello.victor.VictorPluginExtension> {
+    // See comments in gradle section
+    svgDpi = 72
+    excludeDensities = [ 'ldpi', 'xxxhdpi' ]
     generateVectorDrawables = true
 }
 ```
+
+
 OSX Issues
 ----------
 
