@@ -15,10 +15,8 @@
  */
 
 plugins {
-    id 'nu.studer.plugindev' version '1.0.12'
-
-    // Should come along with plugindev, but plugindev uses an old version
-    id 'com.jfrog.bintray' version '1.8.5'
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "0.13.0"
 }
 
 apply plugin: 'groovy'
@@ -54,32 +52,30 @@ dependencies {
 group = 'com.trello'
 version = '1.1.0-SNAPSHOT'
 
-plugindev {
-    pluginId 'com.trello.victor'
-    pluginName 'victor'
-    pluginImplementationClass 'com.trello.victor.VictorPlugin'
-    pluginDescription 'Gradle plugin that lets an Android project use SVGs as resources.'
-    pluginLicenses 'Apache-2.0'
-    pluginTags 'gradle', 'plugin', 'android'
-    authorId 'danlew42'
-    authorName 'Dan Lew'
-    authorEmail 'danlew42@gmail.com'
-    projectUrl 'https://github.com/trello/victor'
-    projectInceptionYear '2015'
-    done() // do not omit this
+
+gradlePlugin {
+    plugins {
+        victorPlugin {
+            id = 'com.trello.victor'
+            implementationClass = 'com.trello.victor.VictorPlugin'
+        }
+    }
 }
 
-// If you want to upload this, make sure to set BINTRAY_USER and BINTRAY_API_KEY in gradle.properties
-if (project.hasProperty('BINTRAY_USER') && project.hasProperty('BINTRAY_API_KEY')) {
-    bintray {
-        dryRun = true // Turn off when actually deploying
-        publish = false // Maybe someday turn this on for auto-publishing
+pluginBundle {
+    website = 'https://github.com/trello/victor'
+    vcsUrl = 'https://github.com/trello/victor'
+    description = 'Gradle plugin that lets an Android project use SVGs as resources.'
+    tags = ['gradle', 'plugin', 'android']
 
-        user = "$BINTRAY_USER"
-        key = "$BINTRAY_API_KEY"
-        pkg {
-            repo = 'gradle-plugins'
-            userOrg = 'trello'
+    plugins {
+        victorPlugin {
+            displayName = 'victor'
         }
+    }
+
+    mavenCoordinates {
+        groupId = "com.trello"
+        artifactId = "victor"
     }
 }
