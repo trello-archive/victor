@@ -49,6 +49,7 @@ class RasterizeTask extends DefaultTask {
     /**
      * The densities to scale assets for.
      */
+    @Input
     List<Density> includeDensities
 
     /**
@@ -148,17 +149,17 @@ class RasterizeTask extends DefaultTask {
         }
     }
 
-    void createOutput(@Nullable Density density = null) {
+    private void createOutput(@Nullable Density density = null) {
         File resDir = getResourceDir(density)
         resDir.mkdirs()
     }
 
-    File getResourceDir(@Nullable Density density = null) {
+    private File getResourceDir(@Nullable Density density = null) {
         String suffix = density? "-${density.name().toLowerCase()}" : ""
         return new File(outputDir, "/drawable${suffix}")
     }
 
-    String getDestinationFile(String name, String suffix) {
+    private String getDestinationFile(String name, String suffix) {
         int suffixStart = name.lastIndexOf '.'
         return suffixStart == -1 ? name : "${name.substring(0, suffixStart)}.$suffix"
     }
