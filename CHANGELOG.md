@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+1.1.1
+-----
+*2021-03-24*
+
+There are no differences between 1.1.0 and 1.1.1; we simply moved to a different host, and I wanted
+to make sure there was no confusion when switching over (since builds will fail now if you keep
+trying to access this via jcenter).
+
+- ([#78](https://github.com/trello/victor/pull/78)) Moved to Gradle publishing portal
+
 1.1.0
 -----
 *2020-05-08*

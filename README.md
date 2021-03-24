@@ -15,10 +15,12 @@ Add the following to your `build.gradle`:
 ```gradle
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.trello:victor:1.1.0'
+        classpath 'com.trello:victor:1.1.1'
     }
 }
 
