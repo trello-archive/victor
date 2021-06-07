@@ -20,7 +20,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.trello:victor:1.1.1'
+        classpath 'com.trello:victor:1.1.2'
     }
 }
 
