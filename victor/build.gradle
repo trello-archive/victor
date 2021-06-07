@@ -17,9 +17,9 @@
 plugins {
     id 'java-gradle-plugin'
     id "com.gradle.plugin-publish" version "0.13.0"
+    id 'maven-publish'
+    id 'groovy'
 }
-
-apply plugin: 'groovy'
 
 dependencies {
     implementation gradleApi()
@@ -30,8 +30,6 @@ dependencies {
 test {
     testLogging.showStandardStreams = true
 }
-
-apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
