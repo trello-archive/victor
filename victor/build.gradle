@@ -31,7 +31,7 @@ test {
     testLogging.showStandardStreams = true
 }
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
