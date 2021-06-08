@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+1.1.2
+-----
+*2021-06-08*
+
+- ([#81](https://github.com/trello/victor/pull/81), [#83](https://github.com/trello/victor/pull/83), [#84](https://github.com/trello/victor/pull/84), [#85](https://github.com/trello/victor/pull/85)) Added Gradle 7 support.
+
 1.1.1
 -----
 *2021-03-24*
