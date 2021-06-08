@@ -35,6 +35,9 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 // Batik dependencies
 
 dependencies {
@@ -75,5 +78,14 @@ pluginBundle {
     mavenCoordinates {
         groupId = "com.trello"
         artifactId = "victor"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'localPluginRepository'
+            url = '../local-plugin-repository'
+        }
     }
 }
