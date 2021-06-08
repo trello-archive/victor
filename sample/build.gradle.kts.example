@@ -35,12 +35,12 @@ apply(plugin = "com.trello.victor")
 val Any.extensions get() = (this as org.gradle.api.plugins.ExtensionAware).extensions
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "com.trello.victorsample"
         minSdkVersion(15)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
 
